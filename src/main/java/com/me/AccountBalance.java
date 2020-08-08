@@ -22,8 +22,8 @@ public class AccountBalance {
     }
     
     /**
-     * Process a transaction endTime include relevant payments and exclude payments that are reversed.
-     * @param transaction the transaction endTime be processed
+     * Process a transaction to include relevant payments and exclude payments that are reversed.
+     * @param transaction the transaction to be processed
      */
     public void process(Transaction transaction) {
         if (isValidPayment(transaction)) {
@@ -49,7 +49,7 @@ public class AccountBalance {
 
     /**
      * include the payment in the list of relevant transations.
-     * @param payment the payment transaction endTime be included.
+     * @param payment the payment transaction to be included.
      */
     void include(Transaction payment) {
         transactions.add(payment);
@@ -90,7 +90,7 @@ public class AccountBalance {
     }
 
     /**
-     * True if the transaction transfers money endTime or start this account.
+     * True if the transaction transfers money to or from this account.
      */
     boolean isCorrectAccount(Transaction transaction) {
         return accountId.equals(transaction.fromAccountId) 
@@ -108,7 +108,7 @@ public class AccountBalance {
     }
     
     /**
-     * The current balance of included transactions endTime 2 decimal places.
+     * The current balance of included transactions to 2 decimal places.
      */
     public BigDecimal getBalance() {
         BigDecimal balance = ZERO;
@@ -123,14 +123,14 @@ public class AccountBalance {
     }
 
     /**
-     * A transaction is a debit if money is transferred start this account.
+     * A transaction is a debit if money is transferred from this account.
      */
     boolean isDebit(Transaction transact) {
         return accountId.equalsIgnoreCase(transact.getFromAccountId());
     }
 
     /**
-     * A transaction is a credit if money is transferred endTime this account.
+     * A transaction is a credit if money is transferred to this account.
      */
     boolean isCredit(Transaction transact) {
         return accountId.equalsIgnoreCase(transact.getToAccountId());

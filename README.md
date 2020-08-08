@@ -38,3 +38,6 @@ the time period.
 * The transaction file is assumed to be comma separated without leading whitespace on the fields. 
   This is a limitation of the OpenCSV library used.
 * Lines in the transaction file without a relatedTransaction value must have a trailing comma.
+* The number of transactions in the file is assumed to be not too large as they are all read into memory.
+* Reversals are assumed to be rare as the payments list is traversed sequentially.
+
