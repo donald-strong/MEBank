@@ -1,6 +1,7 @@
 package com.me;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvException;
 
 public class Application {
-    
+
     String filename;
     String accountId;
     LocalDateTime startTime;
@@ -25,15 +26,30 @@ public class Application {
     }
     
     public void setArguments(String[] args) {
-        if (args.length == 3) {
-            setAccountId(args[0]);
-            setFrom(args[1]);
-            setTo(args[2]);
+        int n = 0;
+        if (args.length == 4) {
+            setFilename(args[n++]);
+            setAccountId(args[n++]);
+            setFrom(args[n++]);
+            setTo(args[n++]);
         } else {
-            usage();
+            throw new IllegalArgumentException("Must be 4 command line arguments");
         }
     }
     
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        File file = new File(filename);
+        if (file.exists()) {
+            this.filename = filename;
+        } else {
+            throw new IllegalArgumentException("File not found: " + file.getAbsolutePath());
+        }
+    }
+
     public String getAccountId() {
         return accountId;
     }
@@ -71,7 +87,13 @@ public class Application {
     }
     
     public static void usage() {
-        System.err.println("Usage: Application <account_id> <from_date_time> <to_date_time>");
+        System.err.println("Usage: java -jar <jarfile> <filename> <account_id> <from_date_time> <to_date_time>");
+        System.err.println("\t<jarfile> the path to the jar file (Not really a parameter)");
+        System.err.println("\t<filename> the path to the transaction file");
+        System.err.println("\t<account_id> the account ID");
+        System.err.println("\t<from_date_time> the time from which to include transations");
+        System.err.println("\t<to_date_time> the time to which to include transactions");
+        System.err.println("E.g. $ java -jar MEBank.jar Sample.csv ACC334455 '20/10/2018 12:00:00' '20/10/2018 19:00:00'");
     }
 
     public void process(AccountBalance accountBalance) throws IOException, CsvException {
@@ -92,7 +114,7 @@ public class Application {
     }
 
     public void report(PrintStream out, AccountBalance account) {
-        out.println("Relative balance for the period is: " + account.getBalance());
+        out.println("Relative balance for the period is: " + CsvStringUtils.currencyFormat(account.getBalance()));
         out.println("Number of transactions included is: " + account.getTransactionCount());
     }
 

@@ -4,16 +4,22 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class CsvStringUtils {
     public static final String DATETIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 
     public static LocalDateTime parseDateTime(String value) {
+        try {
         if (value == null) {
             return null;
         } else {
             return LocalDateTime.parse(value, DATETIME_FORMATTER);
+        }
+        } catch (DateTimeParseException ex) {
+            String msg = "Expected date format (31/12/2020 12:34:56) not '" + value + "'";
+            throw new IllegalArgumentException(msg);
         }
     }
     

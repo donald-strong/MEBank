@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>MEBank</groupId>
   <artifactId>MEBank</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0</version>
   <name>MEBank</name>
   <description>Test Application</description>
   <build>
